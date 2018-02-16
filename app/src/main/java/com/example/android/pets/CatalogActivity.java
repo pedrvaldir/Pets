@@ -19,7 +19,7 @@ public class CatalogActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_catalog);
 
-        // Setup FAB to open EditorActivity
+        // Configurar FAB para abrir o EditorActividade
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -32,23 +32,23 @@ public class CatalogActivity extends AppCompatActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu options from the res/menu/menu_catalog.xml file.
-        // This adds menu items to the app bar.
+        // Inflar as opções de menu do arquivo res / menu / menu_catalog.xml
+        // Isso adiciona itens de menu à barra de aplicativos.
         getMenuInflater().inflate(R.menu.menu_catalog, menu);
         return true;
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // User clicked on a menu option in the app bar overflow menu
+        //// O usuário clicou em uma opção de menu no menu de transbordamento da barra de aplicativos
         switch (item.getItemId()) {
-            // Respond to a click on the "Insert dummy data" menu option
+            // Responda a um clique na opção de menu "Inserir dados falsos"
             case R.id.action_insert_dummy_data:
                 // Do nothing for now
                 return true;
-            // Respond to a click on the "Delete all entries" menu option
+            // Responda a um clique na opção de menu "Excluir todas as entradas"
             case R.id.action_delete_all_entries:
-                // Do nothing for now
+                //Não faça nada por enquanto
                 return true;
         }
         return super.onOptionsItemSelected(item);

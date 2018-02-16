@@ -20,21 +20,22 @@ import com.example.android.pets.data.PetContract.PetsEntry;
  */
 public class EditorActivity extends AppCompatActivity {
 
-    /** EditText field to enter the pet's name */
+    /** EditText campo para inserir o nome do cachorro*/
     private EditText mNameEditText;
 
-    /** EditText field to enter the pet's breed */
+    /** EditText campo para inserir a raça do cachorro */
     private EditText mBreedEditText;
 
-    /** EditText field to enter the pet's weight */
+    /** EditText campo para inserir o peso do cachorro */
     private EditText mWeightEditText;
 
-    /** EditText field to enter the pet's gender */
+    /** EditText campo para entrar no gênero do cachorro*/
     private Spinner mGenderSpinner;
 
+
     /**
-     * Gender of the pet. The possible values are:
-     * 0 for unknown gender, 1 for male, 2 for female.
+     * Sexo dos cachorros. Os valores possíveis são
+     * 0 para sexo desconhecido, 1 para macho, 2 para femea.
      */
     private int mGender = 0;
 
@@ -43,7 +44,7 @@ public class EditorActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_editor);
 
-        // Find all relevant views that we will need to read user input from
+        // Encontre todas as visualizações relevantes que precisaremos para ler a entrada do usuário de
         mNameEditText = (EditText) findViewById(R.id.edit_pet_name);
         mBreedEditText = (EditText) findViewById(R.id.edit_pet_breed);
         mWeightEditText = (EditText) findViewById(R.id.edit_pet_weight);
@@ -53,21 +54,21 @@ public class EditorActivity extends AppCompatActivity {
     }
 
     /**
-     * Setup the dropdown spinner that allows the user to select the gender of the pet.
+     * Configure o spinner suspenso que permite ao usuário selecionar o gênero do animal de estimação.
      */
     private void setupSpinner() {
-        // Create adapter for spinner. The list options are from the String array it will use
-        // the spinner will use the default layout
+        // Crie um adaptador spinner. As opções de lista são da matriz String que usará
+        // o spinner usará o layout padrão
         ArrayAdapter genderSpinnerAdapter = ArrayAdapter.createFromResource(this,
                 R.array.array_gender_options, android.R.layout.simple_spinner_item);
 
-        // Specify dropdown layout style - simple list view with 1 item per line
+        // Especificar estilo de layout suspenso - exibição de lista simples com 1 item por linha
         genderSpinnerAdapter.setDropDownViewResource(android.R.layout.simple_dropdown_item_1line);
 
-        // Apply the adapter to the spinner
+        // Aplique o adaptador no  Spinner
         mGenderSpinner.setAdapter(genderSpinnerAdapter);
 
-        // Set the integer mSelected to the constant values
+        // Defina o inteiro mSeleccionado para os valores constantes
         mGenderSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
@@ -83,7 +84,7 @@ public class EditorActivity extends AppCompatActivity {
                 }
             }
 
-            // Because AdapterView is an abstract class, onNothingSelected must be defined
+            // Como AdapterView é uma classe abstrata, onNothingSelected deve ser definido
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
                 mGender = 0; // Unknown
@@ -93,27 +94,27 @@ public class EditorActivity extends AppCompatActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu options from the res/menu/menu_editor.xml file.
-        // This adds menu items to the app bar.
+        //inflar as opções de menu do arquivo res / menu / menu_editor.xml.
+        // Isso adiciona itens de menu à barra de aplicativos.
         getMenuInflater().inflate(R.menu.menu_editor, menu);
         return true;
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // User clicked on a menu option in the app bar overflow menu
+        // O usuário clicou em uma opção de menu no menu de transbordamento da barra de aplicativos
         switch (item.getItemId()) {
-            // Respond to a click on the "Save" menu option
+            //Responda a um clique na opção de menu "Salvar"
             case R.id.action_save:
-                // Do nothing for now
+                //Salvar cachorro para o banco de dados
                 return true;
-            // Respond to a click on the "Delete" menu option
+            //  Responda a um clique na opção de menu "Excluir"
             case R.id.action_delete:
-                // Do nothing for now
+                //  Não faça nada por enquanto
                 return true;
-            // Respond to a click on the "Up" arrow button in the app bar
+            //Responda a um clique no botão de seta "Para cima" na barra de aplicativos
             case android.R.id.home:
-                // Navigate back to parent activity (CatalogActivity)
+                //  Navegue de volta para a atividade pai (atividade do catálogo)
                 NavUtils.navigateUpFromSameTask(this);
                 return true;
         }
