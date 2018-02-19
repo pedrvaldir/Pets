@@ -1,6 +1,8 @@
 
 package com.example.android.pets;
 
+import android.content.ContentValues;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.support.v4.app.NavUtils;
 import android.support.v7.app.AppCompatActivity;
@@ -12,8 +14,10 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.Toast;
 
-import com.example.android.pets.data.PetContract.PetsEntry;
+import com.example.android.pets.data.PetContract.PetEntry;
+import com.example.android.pets.data.PetDbHelper;
 
 /**
  *Permite ao usuário criar um novo animal de estimação ou editar um existente.
@@ -75,11 +79,11 @@ public class EditorActivity extends AppCompatActivity {
                 String selection = (String) parent.getItemAtPosition(position);
                 if (!TextUtils.isEmpty(selection)) {
                     if (selection.equals(getString(R.string.gender_male))) {
-                        mGender = PetsEntry.GENDER_MALE; // Male
+                        mGender = PetEntry.GENDER_MALE; // Male
                     } else if (selection.equals(getString(R.string.gender_female))) {
-                        mGender = PetsEntry.GENDER_FEMALE; // Female
+                        mGender = PetEntry.GENDER_FEMALE; // Female
                     } else {
-                        mGender = PetsEntry.GENDER_UNKNOWN; // Unknown
+                        mGender = PetEntry.GENDER_UNKNOWN; // Unknown
                     }
                 }
             }
@@ -90,6 +94,45 @@ public class EditorActivity extends AppCompatActivity {
                 mGender = 0; // Unknown
             }
         });
+    }
+
+    /**
+     *Obter entrada de usuários do editor e salvar novos animais de estimação no banco de dados.
+     */
+    private void insertPet() {
+        // Ler dos campos de entrada
+        // Use aparar para eliminar o espaço em branco principal ou posterior
+        String nameString = mNameEditText.getText().toString().trim();
+        String breedString = mBreedEditText.getText().toString().trim();
+        String weightString = mWeightEditText.getText().toString().trim();
+        int weight = Integer.parseInt(weightString);
+
+        // Criar ajudante de banco de dados
+        PetDbHelper mDbHelper = new PetDbHelper(this);
+
+        //Obtém o banco de dados no modo de gravação
+        SQLiteDatabase db = mDbHelper.getWritableDatabase();
+
+        // Crie um objeto ContentValues onde os nomes das colunas são as chaves,
+        // e os atributos de animal de estimação do editor são os valores.
+        ContentValues values = new ContentValues();
+        values.put(PetEntry.COLUMN_PET_NAME, nameString);
+        values.put(PetEntry.COLUMN_PET_BREED, breedString);
+        values.put(PetEntry.COLUMN_PET_GENDER, mGender);
+        values.put(PetEntry.COLUMN_PET_WEIGHT, weight);
+
+        // Insira uma nova linha para o animal de estimação no banco de dados, retornando o ID dessa nova linha.
+        long newRowId = db.insert(PetEntry.TABLE_NAME, null, values);
+
+        // Mostra uma mensagem de brinde dependendo se a inserção foi ou não bem sucedida
+        if (newRowId == -1) {
+            // Se a ID da linha for -1, então houve um erro na inserção.
+            Toast.makeText(this, "Erro ao salvar os animais", Toast.LENGTH_SHORT).show();
+        } else {
+            // Caso contrário, a inserção foi bem sucedida e podemos exibir um brinde com a ID da linha.
+
+            Toast.makeText(this, "Cachorro salvo com identificação de linha: " + newRowId, Toast.LENGTH_SHORT).show();
+        }
     }
 
     @Override
@@ -106,7 +149,10 @@ public class EditorActivity extends AppCompatActivity {
         switch (item.getItemId()) {
             //Responda a um clique na opção de menu "Salvar"
             case R.id.action_save:
-                //Salvar cachorro para o banco de dados
+                // Salvar cachorro para o banco de dados
+                insertPet();
+                //finaliza atividade
+                finish();
                 return true;
             //  Responda a um clique na opção de menu "Excluir"
             case R.id.action_delete:

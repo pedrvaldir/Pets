@@ -17,16 +17,16 @@ public final class PetContract {
     private  PetContract() {}
 
     /* Classe interna que define o conteúdo da tabela */
-    public static abstract class PetsEntry implements BaseColumns{
+    public static abstract class PetEntry implements BaseColumns{
 
         public static final String TABLE_NAME = "pets";
 
         public static final String _ID = BaseColumns._ID;
 
-        public static final String COLUMN_NAME = "name";
-        public static final String COLUMN_BREED = "breed";
-        public static final String COLUMN_GENDER = "gender";
-        public static final String COLUMN_WEIGHT = "weight";
+        public static final String COLUMN_PET_NAME = "name";
+        public static final String COLUMN_PET_BREED = "breed";
+        public static final String COLUMN_PET_GENDER = "gender";
+        public static final String COLUMN_PET_WEIGHT = "weight";
 
         /** Possiveis valores para GENDER
          * 0 - Desconhecido, 1 - Masculino, 2 - Feminino
